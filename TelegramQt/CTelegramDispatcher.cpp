@@ -567,6 +567,15 @@ bool CTelegramDispatcher::requestHistory(const Telegram::Peer &peer, quint32 off
     return true;
 }
 
+quint64 CTelegramDispatcher::searchContacts(const QString &query)
+{
+    if (!activeConnection()) {
+        return 0;
+    }
+
+    return activeConnection()->contactsSearch(query, 10);
+}
+
 quint32 CTelegramDispatcher::resolveUsername(const QString &userName)
 {
     if (!activeConnection()) {
@@ -1061,6 +1070,28 @@ void CTelegramDispatcher::onUsersReceived(const QVector<TLUser> &users)
             emit userInfoReceived(user.id);
         }
     }
+}
+
+void CTelegramDispatcher::onContactsFound(const QString &query, const TLContactsFound &result)
+{
+    QVector<Telegram::Peer> peers;
+
+    if (!result.users.isEmpty()) {
+        onUsersReceived(result.users);
+    }
+    if (!result.chats.isEmpty()) {
+        onChatsReceived(result.chats);
+    }
+
+    for (const TLPeer &peer : result.results) {
+        const Telegram::Peer publicPeer = peerToPublicPeer(peer);
+        if (!publicPeer.id) {
+            continue;
+        }
+        peers << publicPeer;
+    }
+
+    emit searchComplete(query, peers);
 }
 
 void CTelegramDispatcher::whenContactListReceived(const QVector<quint32> &contactList)
@@ -1921,6 +1952,8 @@ void CTelegramDispatcher::onConnectionAuthChanged(int newState, quint32 dc)
                     SLOT(onChatsReceived(QVector<TLChat>)));
             connect(connection, SIGNAL(messagesFullChatReceived(TLChatFull,QVector<TLChat>,QVector<TLUser>)),
                     SLOT(whenMessagesFullChatReceived(TLChatFull,QVector<TLChat>,QVector<TLUser>)));
+            connect(connection, SIGNAL(contactsFound(QString,TLContactsFound)),
+                    SLOT(onContactsFound(QString,TLContactsFound)));
             connect(connection, SIGNAL(userNameStatusUpdated(QString,TelegramNamespace::UserNameStatus)),
                     SIGNAL(userNameStatusUpdated(QString,TelegramNamespace::UserNameStatus)));
 

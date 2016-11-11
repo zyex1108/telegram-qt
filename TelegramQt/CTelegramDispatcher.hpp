@@ -104,6 +104,7 @@ public:
     bool getMessageMediaInfo(Telegram::MessageMediaInfo *messageInfo, quint32 messageId) const;
 
     bool requestHistory(const Telegram::Peer &peer, quint32 offset, quint32 limit);
+    quint64 searchContacts(const QString &query);
     quint32 resolveUsername(const QString &userName);
 
     quint32 uploadFile(const QByteArray &fileContent, const QString &fileName);
@@ -176,6 +177,7 @@ signals:
     void contactStatusChanged(quint32 userId, TelegramNamespace::ContactStatus status);
     void contactMessageActionChanged(quint32 userId, TelegramNamespace::MessageAction action);
     void contactChatMessageActionChanged(quint32 chatId, quint32 userId, TelegramNamespace::MessageAction action);
+    void searchComplete(const QString &query, const QVector<Telegram::Peer> &peers);
 
     void sentMessageIdReceived(quint64 randomId, quint32 resolvedId);
     void messageReadInbox(Telegram::Peer peer, quint32 messageId);
@@ -199,6 +201,7 @@ protected slots:
 
     void onSelfUserReceived(const TLUser &selfUser);
     void onUsersReceived(const QVector<TLUser> &users);
+    void onContactsFound(const QString &query, const TLContactsFound &result);
 
     void whenContactListReceived(const QVector<quint32> &contactIdList);
     void whenContactListChanged(const QVector<quint32> &added, const QVector<quint32> &removed);

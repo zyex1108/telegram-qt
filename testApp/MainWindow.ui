@@ -127,7 +127,7 @@
       </widget>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabMain">
         <attribute name="title">
@@ -350,9 +350,16 @@
             <widget class="QLineEdit" name="currentContact"/>
            </item>
            <item>
+            <widget class="QPushButton" name="searchContacts">
+             <property name="text">
+              <string>Search</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="findContact">
              <property name="text">
-              <string>Find contact</string>
+              <string>Find a contact by username</string>
              </property>
             </widget>
            </item>
@@ -790,7 +797,7 @@
      <x>0</x>
      <y>0</y>
      <width>1360</width>
-     <height>19</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>

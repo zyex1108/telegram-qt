@@ -111,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(whenMessageReceived(Telegram::Message)));
     connect(m_core, SIGNAL(contactChatMessageActionChanged(quint32,quint32,TelegramNamespace::MessageAction)),
             SLOT(whenContactChatMessageActionChanged(quint32,quint32,TelegramNamespace::MessageAction)));
+    connect(m_core, SIGNAL(searchComplete(QString,QVector<TelegramNamespace::Peer>)),
+            SLOT(onSearchComplete(QString,QVector<TelegramNamespace::Peer>)));
     connect(m_core, SIGNAL(contactMessageActionChanged(quint32,TelegramNamespace::MessageAction)),
             SLOT(whenContactMessageActionChanged(quint32,TelegramNamespace::MessageAction)));
     connect(m_core, SIGNAL(createdChatIdReceived(quint64,quint32)),
@@ -552,6 +554,17 @@ void MainWindow::onUserNameStatusUpdated(const QString &userName, TelegramNamesp
     }
 }
 
+void MainWindow::onSearchComplete(const QString &query, const QVector<Telegram::Peer> &peers)
+{
+    if (query == m_searchQuery) {
+        for (const Telegram::Peer &peer : peers) {
+            if (peer.type == Telegram::Peer::User) {
+                searchResultModel()->addContact(peer.id);
+            }
+        }
+    }
+}
+
 void MainWindow::whenCustomMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->messagingView->currentIndex();
@@ -832,11 +845,24 @@ CContactModel *MainWindow::searchResultModel()
     return m_contactSearchResultModel;
 }
 
+void MainWindow::on_searchContacts_clicked()
+{
+    m_searchQuery = ui->currentContact->text();
+    ui->contactsSplitter->setSizes(QList<int>() << 100 << 100);
+    searchByQuery();
+}
+
 void MainWindow::on_findContact_clicked()
 {
     m_searchQuery = ui->currentContact->text();
     ui->contactsSplitter->setSizes(QList<int>() << 100 << 100);
     searchByUsername();
+}
+
+void MainWindow::searchByQuery()
+{
+    searchResultModel()->clear();
+    m_core->searchContacts(m_searchQuery);
 }
 
 void MainWindow::searchByUsername()
