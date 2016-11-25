@@ -78,6 +78,7 @@ INSTALLS += public_headers target
 CONFIG += create_pc create_prl no_install_prl
 
 QMAKE_PKGCONFIG_NAME = TelegramQt
+QMAKE_PKGCONFIG_FILE = TelegramQt$${QT_MAJOR_VERSION}
 QMAKE_PKGCONFIG_DESCRIPTION = Qt-based library for Telegram network
 QMAKE_PKGCONFIG_PREFIX = $$INSTALL_PREFIX
 QMAKE_PKGCONFIG_LIBDIR = $$INSTALL_LIBDIR
