@@ -1,5 +1,6 @@
 Name: telegram-qt
 Summary: Telegram bindings for Qt
+
 %define version_major 0
 %define version_minor 2
 %define version_patch 0
@@ -13,6 +14,7 @@ Source0: https://github.com/Kaffeine/telegram-qt/releases/download/telegram-qt-%
 BuildRequires: pkgconfig(Qt5Core)
 BuildRequires: pkgconfig(Qt5Network)
 BuildRequires: pkgconfig(openssl)
+BuildRequires: cmake >= 2.8
 
 %description
 %{summary}.
@@ -20,8 +22,11 @@ BuildRequires: pkgconfig(openssl)
 %package qt5
 Summary: TelegramQt library for Qt5
 Group: Development/Libraries
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
 Requires: qt5-qtcore
 Requires: qt5-qtnetwork
+Requires: openssl
 
 %description qt5
 %{summary}.
@@ -33,18 +38,11 @@ Requires:   %{name}-qt5%{?_isa} = %{version}-%{release}
 %description qt5-devel
 %{summary}.
 
-# Fallback to qtc_qmake5 to qmake5, if the first one is not already defined
-%{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
-
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 %build
-%{qtc_qmake5} \
-  "BUILD_ONLY_LIBRARY=true" \
-  "INSTALL_PREFIX=%{_prefix}" \
-  "INSTALL_LIB_DIR=%{_libdir}" \
-  "INSTALL_INCLUDE_DIR=%{_includedir}"
+%cmake -DENABLE_TESTAPP=FALSE
 
 make %{?_smp_mflags}
 
