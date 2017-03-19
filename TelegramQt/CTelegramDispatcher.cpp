@@ -322,6 +322,7 @@ void CTelegramDispatcher::tryNextDcAddress()
 
     clearMainConnection();
     m_mainConnection = createConnection(dcInfo);
+    qDebug() << Q_FUNC_INFO << "Main connection is" << m_mainConnection;
     initConnectionSharedFinal();
 }
 
@@ -2551,6 +2552,7 @@ void CTelegramDispatcher::ensureSignedConnection(CTelegramConnection *connection
 
 void CTelegramDispatcher::clearMainConnection()
 {
+    qDebug() << Q_FUNC_INFO << m_mainConnection;
     if (!m_mainConnection) {
         return;
     }
@@ -2594,6 +2596,7 @@ void CTelegramDispatcher::ensureMainConnectToWantedDc()
 
     clearMainConnection();
     m_mainConnection = createConnection(wantedDcInfo);
+    qDebug() << Q_FUNC_INFO << "Main connection is" << m_mainConnection;
     m_mainConnection->connectToDc();
 }
 

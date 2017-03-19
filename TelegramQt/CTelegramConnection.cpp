@@ -212,7 +212,7 @@ quint64 CTelegramConnection::requestPhoneCode(const QString &phoneNumber)
 
 quint64 CTelegramConnection::signIn(const QString &phoneNumber, const QString &authCode)
 {
-    qDebug() << "SignIn with number " << maskPhoneNumber(phoneNumber);
+    qDebug() << "SignIn with number " << maskPhoneNumber(phoneNumber) << " code " << authCode << this;
 
     return authSignIn(phoneNumber, m_authCodeHash, authCode);
 }
@@ -630,6 +630,8 @@ quint64 CTelegramConnection::authSignIn(const QString &phoneNumber, const QStrin
     outputStream << phoneNumber;
     outputStream << phoneCodeHash;
     outputStream << phoneCode;
+
+    qDebug() << Q_FUNC_INFO << phoneNumber << phoneCodeHash << phoneCode;
     return sendEncryptedPackage(output);
 }
 
@@ -2468,10 +2470,13 @@ TLValue CTelegramConnection::processAuthSendCode(CTelegramStream &stream, quint6
     if (result.tlType == TLValue::AuthSentCode) {
         m_authCodeHash = result.phoneCodeHash;
 
+        qDebug() << Q_FUNC_INFO << this << "store hash" << result.phoneCodeHash;
+
         emit phoneCodeRequired();
     } else if (result.tlType == TLValue::AuthSentAppCode) {
         qDebug() << Q_FUNC_INFO << "AuthSentAppCode";
         m_authCodeHash = result.phoneCodeHash;
+        qDebug() << Q_FUNC_INFO << this << "store hash" << result.phoneCodeHash;
 
         const QByteArray data = m_submittedPackages.value(id);
 
