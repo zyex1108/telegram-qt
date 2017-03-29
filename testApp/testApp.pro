@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     CContactModel.cpp \
     CContactsFilterModel.cpp \
     CChatInfoModel.cpp \
+    CDialogModel.cpp \
     CMessageModel.cpp
 
 HEADERS  += MainWindow.hpp \
     CContactModel.hpp \
     CContactsFilterModel.hpp \
     CChatInfoModel.hpp \
+    CDialogModel.hpp \
     CMessageModel.hpp
 
 FORMS    += MainWindow.ui
