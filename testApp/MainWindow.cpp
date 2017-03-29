@@ -22,6 +22,7 @@
 #include "CTelegramCore.hpp"
 #include "CContactModel.hpp"
 #include "CContactsFilterModel.hpp"
+#include "CDialogModel.hpp"
 #include "CMessageModel.hpp"
 #include "CChatInfoModel.hpp"
 
@@ -48,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_passwordInfo(nullptr),
     m_contactsModel(new CContactModel(m_core, this)),
     m_contactListModel(new CContactsFilterModel(this)),
+    m_dialogModel(new CDialogModel(m_core, this)),
     m_messagingModel(new CMessageModel(m_core, this)),
     m_chatContactsModel(new CContactsFilterModel(this)),
     m_chatMessagingModel(new CMessageModel(m_core, this)),
@@ -61,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     m_contactListModel->setSourceModel(m_contactsModel);
     ui->contactListTable->setModel(m_contactListModel);
+    ui->dialogsTable->setModel(m_dialogModel);
     ui->messagingView->setModel(m_messagingModel);
     m_chatContactsModel->setSourceModel(m_contactsModel);
     ui->groupChatContacts->setModel(m_chatContactsModel);

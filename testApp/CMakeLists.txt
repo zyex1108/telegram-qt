@@ -7,6 +7,7 @@ set(testApp_SOURCES
     CContactsFilterModel.cpp
     CMessageModel.cpp
     CChatInfoModel.cpp
+    CDialogModel.cpp
 )
 
 set(testApp_HEADERS
@@ -15,6 +16,7 @@ set(testApp_HEADERS
     CContactsFilterModel.hpp
     CMessageModel.hpp
     CChatInfoModel.hpp
+    CDialogModel.hpp
 )
 
 set(testApp_FORMS
