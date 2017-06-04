@@ -185,7 +185,9 @@ void CContactModel::addContact(quint32 id)
         if (QPixmapCache::find(token, &avatar)) {
             m_contacts.last().avatar = avatar;
         } else {
-            m_backend->requestContactAvatar(id);
+            if (!m_contacts.last().phone().isEmpty()) {
+                m_backend->requestContactAvatar(id);
+            }
         }
     }
 
