@@ -150,7 +150,8 @@ struct Peer
 {
     enum Type {
         User,
-        Chat
+        Chat,
+        Channel,
     };
 
     Peer(quint32 id = 0, Type t = User) : type(t), id(id)
