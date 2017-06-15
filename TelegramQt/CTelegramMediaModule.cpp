@@ -48,6 +48,7 @@ QString CTelegramMediaModule::peerPictureToken(const Telegram::Peer &peer, const
         return getPictureToken(getUser(peer.id), size);
         break;
     case Telegram::Peer::Chat:
+    case Telegram::Peer::Channel:
         return getPictureToken(getChat(peer), size);
         break;
     default:
@@ -65,6 +66,7 @@ quint32 CTelegramMediaModule::requestPeerPicture(const Telegram::Peer &peer, con
         requestId = getPeerPicture(getUser(peer.id), size);
         break;
     case Telegram::Peer::Chat:
+    case Telegram::Peer::Channel:
         requestId = getPeerPicture(getChat(peer), size);
         break;
     default:
