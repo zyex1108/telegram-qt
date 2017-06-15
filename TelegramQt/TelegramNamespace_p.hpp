@@ -4,6 +4,10 @@
 #include "TLTypes.hpp"
 #include "TelegramNamespace.hpp"
 
+#include <QDebug>
+
+QDebug operator<<(QDebug d, const Telegram::Peer &peer);
+
 class Telegram::MessageMediaInfo::Private : public TLMessageMedia
 {
 public:
