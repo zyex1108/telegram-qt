@@ -290,6 +290,11 @@ QVector<quint32> CTelegramCore::chatList() const
     return m_private->m_dispatcher->chatIdList();
 }
 
+QVector<Telegram::Peer> CTelegramCore::dialogs() const
+{
+    return m_private->m_dispatcher->dialogs();
+}
+
 QString CTelegramCore::peerPictureToken(const Telegram::Peer &peer, const Telegram::PeerPictureSize size) const
 {
     return m_private->m_mediaModule->peerPictureToken(peer, size);

@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE quint32 maxMessageId() const;
     Q_INVOKABLE QVector<quint32> contactList() const;
     Q_INVOKABLE QVector<quint32> chatList() const;
+    Q_INVOKABLE QVector<Telegram::Peer> dialogs() const;
 
     Q_INVOKABLE QString peerPictureToken(const Telegram::Peer &peer, const Telegram::PeerPictureSize size = Telegram::PeerPictureSize::Small) const;
     Q_INVOKABLE QString contactAvatarToken(quint32 userId) const;
