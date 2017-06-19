@@ -31,5 +31,7 @@ equals(BUILD_QML_IMPORT, "true") {
     }
 }
 
+SUBDIRS += server
+
 OTHER_FILES += CMakeLists.txt
 OTHER_FILES += rpm/telegram-qt$${QT_MAJOR_VERSION}.spec
