@@ -11,12 +11,20 @@ class CDialogModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    enum Section {
+    enum class Column {
         PeerType,
         PeerId,
         PeerName,
         Picture, // Photo (in terms of Telegram)
         ColumnsCount
+    };
+
+    enum class Role {
+        PeerType,
+        PeerId,
+        PeerName,
+        Picture, // Photo (in terms of Telegram)
+        Invalid,
     };
 
     explicit CDialogModel(CTelegramCore *backend, QObject *parent = nullptr);
@@ -28,10 +36,15 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 //    QVariant data(const QString &phone, Section section) const;
 //    QVariant data(quint32 id, Section section) const;
-//    QVariant data(int contactIndex, Section section) const;
+    QVariant data(int dialogIndex, Role role) const;
+
+protected:
+    void setDialogs(const QVector<Telegram::Peer> &dialogs);
+    static Role columnToRole(Column column);
 
 private:
     CTelegramCore *m_backend;
+    QVector<Telegram::DialogInfo*> m_dialogs;
 
 };
 
