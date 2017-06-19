@@ -65,6 +65,7 @@ public:
 
     static qint32 localTypingRecommendedRepeatInterval(); // Recommended application local typing state re-set interval.
 
+    bool getDialogInfo(Telegram::DialogInfo *info, Telegram::Peer peer) const;
     bool getUserInfo(Telegram::UserInfo *info, quint32 userId) const;
     bool getChatInfo(Telegram::GroupChat *chatInfo, quint32 chatId) const;
     bool getChatParticipants(QVector<quint32> *participants, quint32 chatId);

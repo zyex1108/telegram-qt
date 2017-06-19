@@ -871,6 +871,26 @@ bool CTelegramDispatcher::setWantedDc(quint32 dc)
     return true;
 }
 
+bool CTelegramDispatcher::getDialogInfo(Telegram::DialogInfo *info, Telegram::Peer peer) const
+{
+    if (!info || !m_dialogs.contains(peer)) {
+        return false;
+    }
+    
+    const TLDialog &dialog = m_dialogs.value(peer);
+    
+    info->d->peer = peer;
+    dialog.notifySettings
+            
+            
+            
+            
+            
+            ;
+    
+    return true;
+}
+
 bool CTelegramDispatcher::getUserInfo(Telegram::UserInfo *userInfo, quint32 userId) const
 {
     if (!m_users.contains(userId)) {
@@ -1853,6 +1873,9 @@ void CTelegramDispatcher::emitChatChanged(quint32 id)
 
 void CTelegramDispatcher::updateChat(const TLChat &newChat)
 {
+    if (newChat.id == 1029296167) {
+        qDebug() << "this!";
+    }
     if (!m_chatInfo.contains(newChat.id)) {
         m_chatInfo.insert(newChat.id, newChat);
     } else {
