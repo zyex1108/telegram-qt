@@ -19,10 +19,23 @@
 #define CCHATINFOMODEL_HPP
 
 #include <QAbstractTableModel>
+#include <QPixmap>
 
 #include "TelegramNamespace.hpp"
 
 class CTelegramCore;
+
+struct SGroupChat : Telegram::GroupChat {
+    SGroupChat(const Telegram::Peer &peer = Telegram::Peer()) :
+        Telegram::GroupChat(peer.id),
+        m_peer(peer)
+    {
+    }
+
+    Telegram::Peer m_peer;
+    QPixmap m_picture;
+    QByteArray m_pictureData;
+};
 
 class CChatInfoModel : public QAbstractTableModel
 {
@@ -31,6 +44,7 @@ public:
     enum Columns {
         Id,
         Title,
+        Picture,
         ParticipantsCount,
         ColumnsCount
     };
@@ -59,11 +73,14 @@ signals:
 protected slots:
     void onPeerAdded(const Telegram::Peer &peer);
     void onChatChanged(quint32 id);
+    void onFilePartReceived(quint32 requestId, const QByteArray &data, const QString &mimeType, quint32 offset, quint32 totalSize);
+    void onFileRequestFinished(quint32 requestId, Telegram::RemoteFile requestResult);
 
 private:
     CTelegramCore *m_backend;
 
-    QList<Telegram::GroupChat> m_chats;
+    QHash<quint32,quint32> m_chatPictureRequests;
+    QList<SGroupChat> m_chats;
     QVector<Telegram::Peer> m_peers;
 
 };
