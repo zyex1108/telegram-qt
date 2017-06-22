@@ -508,12 +508,12 @@ quint32 Telegram::UserInfo::wasOnline() const
     return getApiContactLastOnline(d->status);
 }
 
-bool Telegram::UserInfo::getProfilePhoto(Telegram::RemoteFile *file, Telegram::UserInfo::ProfilePhotoSize size) const
+bool Telegram::UserInfo::getProfilePhoto(Telegram::RemoteFile *file, PeerPictureSize size) const
 {
     switch (size) {
-    case Big:
+    case PeerPictureSize::Big:
         return file->d->setFileLocation(&d->photo.photoBig);
-    case Small:
+    case PeerPictureSize::Small:
         return file->d->setFileLocation(&d->photo.photoSmall);
     default:
         return false;
